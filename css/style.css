@@ -1,0 +1,103 @@
+
+/* Impostazione fissa per bug della griglia di battaglia */
+#dashboard {
+	height: 296px !important;
+}
+ 
+/* MAPPA */ 
+.box {
+	width: 3.75rem;
+	height: 3.75rem;
+	position: absolute;
+	z-index: 10;
+}
+
+.borded {
+	position: unset;
+	border: 1px solid grey;
+	z-index: 2;
+}
+
+#map, #grid {
+	width: 1020px;
+	height: 1260px;
+	left: 0;
+	top: 220px;
+}
+
+input[id^='coord'] {
+	width: 56px;
+}
+
+.deleted {
+	opacity: 0.25 !important;
+}
+
+
+
+/* COLORI */
+.bg-brown {
+	background-color: #654321 !important;
+}
+
+.bg-brick {
+	background-color: #8B4F39 !important;
+}
+
+.bg-stone {
+	background-color: #d3d3d3 !important;
+}
+
+
+
+/* MARGINI */
+
+
+
+/* WIDTH */
+.w426 {
+	width: 26.625rem !important;
+}
+
+.w100min {
+	min-width: 6.25rem !important;
+}
+
+.w33vw {
+	width: 33vw !important;
+}
+
+
+/* TESTO */
+
+
+
+/* MISCELLANEA */
+/* .hide {
+	display: none !important;
+}
+
+.hide-all, .hide-all * {
+	display: none !important;
+}
+
+.show {
+	display: block !important;
+}
+
+.show-all, .show-all * {
+	display: block !important;
+}
+
+.cursor-pointer {
+	cursor: pointer !important;
+}
+
+.position-absolute {
+	position: absolute !important;
+} */
+
+
+.opacity-25 {
+	opacity: 0.25 !important;
+}
