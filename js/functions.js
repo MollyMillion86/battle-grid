@@ -3,7 +3,7 @@
 
 $(document).ready(function() {
 	
-	// al caricamento della pagina o quando cambia il viewport
+	// On page load or viewport change
 	anchorMap("#dashboard", "#map, #grid");
 	window.addEventListener("resize", anchorMap("#dashboard", "#map, #grid"));
 	
@@ -25,7 +25,7 @@ $(document).ready(function() {
 	
 	
 	
-	// elimina pedine
+	// delete checkers
 	$("#checkerRemover").droppable({
 		drop: function(evt, ui) {
 			
@@ -38,7 +38,7 @@ $(document).ready(function() {
 			battlegridPos("delete", ui.draggable[0].id, posX.toString(), posY.toString());
 			
 			
-			// rendi la pedina opaca e trattienila nell'area di cancellazione
+			// checker opacity and hold it on removing area
 			$("#" + ui.draggable[0].id).addClass("deleted");
 			
 		}
@@ -55,16 +55,17 @@ $(document).ready(function() {
 
 
 
-
 /**
-* function anchorMap: ancora la mappa (con griglia) al bordo basso della dashboard
+* @name	anchorMap
+* 
+* Anchor map and grid to the bottom border of dashboard
 * 
 * @param 			posFromItem
 * 					posToItem
 */
 
 function anchorMap(posFromItem, posToItem) {
-	// preleva bottom e left di #dashboard per usarli per #map
+
 	var pos = $(posFromItem).position();
 	
 	$(posToItem).css({
@@ -82,7 +83,17 @@ function anchorMap(posFromItem, posToItem) {
 
 
 
-
+/**
+* @name battleGridPos
+* 
+* Update checkers positions
+* 
+* @params			action				string				'get' | 'put' | 'update' | 'delete'
+* 					html_id				string				checker ID
+* 					pos_x				string				checker left position
+* 					pos_y				string				checker top position
+* 
+*/
 function battlegridPos(action, html_id, pos_x, pos_y) {
 
 
@@ -126,7 +137,11 @@ function battlegridPos(action, html_id, pos_x, pos_y) {
 
 
 /**
-* posiziona le pedine al centro dei quadrati della griglia di battaglia
+* @name		anchorChecker
+* 
+* Set checkers position at the center of a square in the grid
+* 
+* @param		checker			Object
 */
 
 function anchorChecker(checker) {
@@ -137,18 +152,15 @@ function anchorChecker(checker) {
 	
 	if (!($("#" + id).hasClass("deleted"))) {
 		
-		
-	
-		// griglia
+
 		 $("#grid div.box.borded").droppable({
 			drop: function(event, ui) {
 				
-				// multipli di 60
 				var multipleBase = 60;
 				var multipleLeft = 10;
 				var multipleTop = -6;
 				
-				// ancora segnalino in base alla vicinanza con i bordi
+				// anchor checker based on proximity to edges
 				while (Math.max(multipleLeft, ui.position.left) == ui.position.left) multipleLeft = multipleLeft + multipleBase;
 				while (Math.max(multipleTop, ui.position.top) == ui.position.top) multipleTop = multipleTop + multipleBase;
 

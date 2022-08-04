@@ -106,7 +106,7 @@
 			if ($this->db->lastInsertId() > 0) {
 				$result = array("status" => 'ok');
 			} else {
-				$result = array("error" => 'impossibile salvare le posizioni');
+				$result = array("error" => 'Cannot save positions');
 			}
 			
 			
@@ -140,21 +140,7 @@
 			return $result;
 		
 		}
-		
-		
-		/* private function deletePosFromId($html_id) {
-			
-			$Query = 'DELETE FROM grid_pos WHERE html_id = :html_id';
 
-			$stmt = $this->db->prepare($Query);
-			$stmt->bindParam(":html_id", $html_id, PDO::PARAM_STR);
-			// $return = $stmt->execute();
-			
-			$return = ($stmt->execute() == true) ? array("status" => "ok") : array("error" => "impossibile eliminare $html_id");
-			
-			// return array("status" => 'ok');
-		} */
-		
 		private function deletePosFromId($html_id, $posX, $posY) {
 			
 			$Query = 'UPDATE grid_pos SET pos_x = :pos_x, pos_y = :pos_y, deleted = 1 WHERE html_id = :html_id';
@@ -165,11 +151,10 @@
 			$stmt->bindParam(":pos_y", $posY, PDO::PARAM_STR);
 			$stmt->execute();
 			
-			$result = ($stmt->execute() == true) ? array("status" => "ok") : array("error" => "impossibile eliminare $html_id");
+			$result = ($stmt->execute() == true) ? array("status" => "ok") : array("error" => "Cannot remove $html_id");
 			
 			return $result;
-			// $result = array("status" => 'ok');
-		
+
 		
 		}
 	}
