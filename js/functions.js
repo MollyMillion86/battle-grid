@@ -7,6 +7,8 @@ $(document).ready(function() {
 	anchorMap("#dashboard", "#map, #grid");
 	window.addEventListener("resize", anchorMap("#dashboard", "#map, #grid"));
 	
+	
+	
 
 	
 	// jQuery UI - Drag checkers
@@ -16,9 +18,7 @@ $(document).ready(function() {
 		$("#" + id).draggable();
 
 		battlegridPos('get', id);
-		
-		
-		
+	
 	});
 
 
