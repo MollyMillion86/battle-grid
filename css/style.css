@@ -1,10 +1,13 @@
+p {
+	color: #5E4A3F;
+}
 
-/* Impostazione fissa per bug della griglia di battaglia */
+/* Fixed setting for battle grid bug */
 #dashboard {
 	height: 296px !important;
 }
  
-/* MAPPA */ 
+/* MAP */ 
 .box {
 	width: 3.75rem;
 	height: 3.75rem;
@@ -35,9 +38,13 @@ input[id^='coord'] {
 
 
 
-/* COLORI */
+/* COLORS */
+.bg-very-light-brown {
+	background-color: #F3E2D2 !important;
+}
+
 .bg-brown {
-	background-color: #654321 !important;
+	background-color: #5E4A3F !important;
 }
 
 .bg-brick {
@@ -50,7 +57,7 @@ input[id^='coord'] {
 
 
 
-/* MARGINI */
+/* MARGINS */
 
 
 
@@ -68,35 +75,10 @@ input[id^='coord'] {
 }
 
 
-/* TESTO */
-
-
-
-/* MISCELLANEA */
-/* .hide {
-	display: none !important;
+/* TEXTS */
+.text-brown {
+	color: #5E4A3F !important;
 }
-
-.hide-all, .hide-all * {
-	display: none !important;
-}
-
-.show {
-	display: block !important;
-}
-
-.show-all, .show-all * {
-	display: block !important;
-}
-
-.cursor-pointer {
-	cursor: pointer !important;
-}
-
-.position-absolute {
-	position: absolute !important;
-} */
-
 
 .opacity-25 {
 	opacity: 0.25 !important;

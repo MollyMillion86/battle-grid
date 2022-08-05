@@ -95,7 +95,7 @@
 		
 		private function putPos($html_id, $posX, $posY) {
 			
-			$Query = 'INSERT INTO grid_pos (html_id, pos_x, pos_y) VALUES (:html_id, :pos_x, :pos_y)';
+			$Query = 'INSERT INTO grid_pos (html_id, pos_x, pos_y, deleted) VALUES (:html_id, :pos_x, :pos_y, 0)';
 
 			$stmt = $this->db->prepare($Query);
 			$stmt->bindParam(":html_id", $html_id, PDO::PARAM_STR);
@@ -120,7 +120,7 @@
 			
 			if ($present == 1) {
 				
-				$Query = 'UPDATE grid_pos SET pos_x = :pos_x, pos_y = :pos_y WHERE html_id = :html_id';
+				$Query = 'UPDATE grid_pos SET pos_x = :pos_x, pos_y = :pos_y, deleted = 0 WHERE html_id = :html_id';
 
 				$stmt = $this->db->prepare($Query);
 				$stmt->bindParam(":html_id", $html_id, PDO::PARAM_STR);

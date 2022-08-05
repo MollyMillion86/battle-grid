@@ -125,6 +125,7 @@ function battlegridPos(action, html_id, pos_x, pos_y) {
 		}
 		
 		if (result.deleted == '1') $("#" + html_id).addClass("deleted");
+		if (result.deleted == '0') $("#" + html_id).removeClass("deleted");
 
 		if (result.error) console.log(result.error);
 
@@ -179,7 +180,7 @@ function anchorChecker(checker) {
 		});
 		
 		
-	}
+	} else $("#" + id).removeClass('deleted');
 	
 
 	
