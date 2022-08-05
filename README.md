@@ -1,6 +1,7 @@
 # Battle Grid
 
-Battle Grid is a simple RPG battleground grid written in Javascript, PHP and MySQL.
+Battle Grid is a simple RPG battleground grid written in Javascript, PHP and MySQL.<br>
+You can see the main project [here](https://github.com/MollyMillion86/DeDDIY).
 
 ## Installation
 
