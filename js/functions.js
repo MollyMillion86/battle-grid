@@ -1,0 +1,192 @@
+
+
+
+$(document).ready(function() {
+	
+	// On page load or viewport change
+	anchorMap("#dashboard", "#map, #grid");
+	window.addEventListener("resize", anchorMap("#dashboard", "#map, #grid"));
+	
+
+	
+	// jQuery UI - Drag checkers
+	$(".checker").each(function(i, v) {
+		
+		var id = $(v).attr("id");
+		$("#" + id).draggable();
+
+		battlegridPos('get', id);
+		
+		
+		
+	});
+
+
+	
+	
+	
+	// delete checkers
+	$("#checkerRemover").droppable({
+		drop: function(evt, ui) {
+			
+			var pos = $("#" + ui.draggable[0].id).position();
+			var posX = pos.left;
+			var posY = pos.top;
+
+			
+			// AJAX remove
+			battlegridPos("delete", ui.draggable[0].id, posX.toString(), posY.toString());
+			
+			
+			// checker opacity and hold it on removing area
+			$("#" + ui.draggable[0].id).addClass("deleted");
+			
+		}
+	});
+	
+	
+	
+
+})
+
+	
+
+
+
+
+
+/**
+* @name	anchorMap
+* 
+* Anchor map and grid to the bottom border of dashboard
+* 
+* @param 			posFromItem
+* 					posToItem
+*/
+
+function anchorMap(posFromItem, posToItem) {
+
+	var pos = $(posFromItem).position();
+	
+	$(posToItem).css({
+		"left" : pos.left,
+		"top" : pos.top + $(posFromItem).height()
+	});
+
+	
+}
+
+
+	
+
+
+
+
+
+/**
+* @name battleGridPos
+* 
+* Update checkers positions
+* 
+* @params			action				string				'get' | 'put' | 'update' | 'delete'
+* 					html_id				string				checker ID
+* 					pos_x				string				checker left position
+* 					pos_y				string				checker top position
+* 
+*/
+function battlegridPos(action, html_id, pos_x, pos_y) {
+
+
+	var posObj = {
+		'html_id' : html_id,
+		'pos_x' : (pos_x !== undefined) ? pos_x.replace("px", "") : '0',
+		'pos_y' : (pos_y !== undefined) ? pos_y.replace("px", "") : '0'
+	};
+	
+
+	var data = JSON.stringify(posObj);
+
+	$.post("battlegrid_dispatcher.php", {
+		
+		"action" : action,
+		"data" : data
+		
+	}, function(ret) {
+
+		var result = JSON.parse(ret);
+
+		if ((result.pos_x) && (result.pos_y)) {
+			
+			$("#" + html_id).css({
+				"left" : result.pos_x + "px",
+				"top" : result.pos_y + "px"
+			});
+			
+		}
+		
+		if (result.deleted == '1') $("#" + html_id).addClass("deleted");
+
+		if (result.error) console.log(result.error);
+
+	});
+	
+}
+
+
+
+
+
+/**
+* @name		anchorChecker
+* 
+* Set checkers position at the center of a square in the grid
+* 
+* @param		checker			Object
+*/
+
+function anchorChecker(checker) {
+	
+	var id = $(checker).attr("id");
+	var pPos = $("#" + id).position();
+	
+	
+	if (!($("#" + id).hasClass("deleted"))) {
+		
+
+		 $("#grid div.box.borded").droppable({
+			drop: function(event, ui) {
+				
+				var multipleBase = 60;
+				var multipleLeft = 10;
+				var multipleTop = -6;
+				
+				// anchor checker based on proximity to edges
+				while (Math.max(multipleLeft, ui.position.left) == ui.position.left) multipleLeft = multipleLeft + multipleBase;
+				while (Math.max(multipleTop, ui.position.top) == ui.position.top) multipleTop = multipleTop + multipleBase;
+
+				
+				var leftPos = (multipleLeft - ui.position.left) > (multipleBase / 2) ? (multipleLeft - multipleBase) + 2 : multipleLeft + 2;
+				var topPos = (multipleTop - ui.position.top) > (multipleBase / 2) ? (multipleTop - multipleBase) + 2 : multipleTop + 2;
+
+				$("#" + id).css({
+					"left" : leftPos,
+					"top" : topPos
+				});
+
+				battlegridPos('update', id, leftPos.toString(), topPos.toString());
+
+			}
+		});
+		
+		
+	}
+	
+
+	
+
+
+
+
+
+
+}
