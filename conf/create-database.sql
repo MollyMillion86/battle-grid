@@ -11,3 +11,12 @@ CREATE TABLE `grid_pos` (
  `deleted` varchar(1) default '0',
  primary key (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+CREATE TABLE `maps` (
+ `id` int unsigned NOT NULL auto_increment,
+ `user` varchar(255) NOT NULL,
+ `filename` varchar(255) NOT NULL,
+ `ext` varchar(10) NOT NULL,
+ `deleted` varchar(1) default '0',
+ primary key (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;

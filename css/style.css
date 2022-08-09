@@ -67,6 +67,10 @@ input[id^='coord'] {
 
 
 /* WIDTH */
+.w150 {
+	width: 9.375rem !important;
+}
+
 .w426 {
 	width: 26.625rem !important;
 }
@@ -77,6 +81,20 @@ input[id^='coord'] {
 
 .w33vw {
 	width: 33vw !important;
+}
+
+.w1020 {
+	width:63.75rem !important;
+}
+
+
+/* HEIGHT */
+.h150 {
+	height: 9.375rem !important;
+}
+
+.h1260 {
+	height: 78.75rem !important;
 }
 
 
@@ -92,4 +110,12 @@ input[id^='coord'] {
 
 .opacity-25 {
 	opacity: 0.25 !important;
+}
+
+.text-12 {
+	font-size: 0.75rem !important;
+}
+
+.text-48 {
+	font-size: 3rem !important;
 }

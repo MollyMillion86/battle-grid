@@ -5,7 +5,99 @@ $(document).ready(function() {
 	
 	// On page load or viewport change
 	anchorMap("#dashboard", "#map, #grid");
-	window.addEventListener("resize", anchorMap("#dashboard", "#map, #grid"));
+	window.addEventListener("resize", function() {
+		
+		anchorMap("#dashboard", "#map, #grid");
+		
+		resizeDashboard();
+		
+		
+	});
+	
+	
+	
+	resizeDashboard();
+	
+	
+	// get map
+	var data = {
+		"action" : "get"
+	};
+	
+	
+	
+	
+	// get user map on page load
+	$.ajax({
+	
+		url: "upload_map_dispatcher.php",
+		type: "POST",
+		data: data,
+		success: function(ret) {
+			
+			var Ret = JSON.parse(ret);
+			
+			if (!Ret.error) {
+				
+				$("#map").attr("src", Ret.filename);
+				
+			} else console.log(Ret.error);
+			
+			
+		}
+		
+		
+	})
+	
+	
+	
+	
+	
+	$("#uploadMap").click(function() {
+		
+		
+		var fd = new FormData();
+		
+		var file = $("#uploadFile")[0].files;
+		fd.append("file", file[0]);
+		// PUT o GET ????
+		// fd.append("action", "get");
+		
+
+		
+		$.ajax({
+			
+			url: "upload_map_dispatcher.php",
+			type: "POST",
+			data: fd,
+			contentType:false,
+			processData:false,
+			success: function(ret) {
+				
+				var obj = JSON.parse(ret)
+				
+				console.log(obj);
+				
+				
+				
+			}
+			
+			
+		})
+		
+		
+	});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -76,9 +168,17 @@ function anchorMap(posFromItem, posToItem) {
 	
 }
 
-
+/**
+* @name	resizeDashboard
+* 
+* Dashboard width same as grid, remover and adder area widths
+* 
+*/
 	
-
+function resizeDashboard() {
+	var outerWidth = $("#grid").outerWidth() + $("#checkerRemover").outerWidth() + $("#checkerAdder").outerWidth();
+	$("#dashboard").outerWidth(outerWidth);
+}
 
 
 

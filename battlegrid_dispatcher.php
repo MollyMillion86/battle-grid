@@ -11,7 +11,7 @@
 	if ($_POST['action']) {
 		
 
-		$grid = new BATTLEGRID(array('db' => $db2));
+		$grid = new BATTLEGRID(array('db' => $db));
 		
 		
 		$data = json_decode($_POST['data'], true);
