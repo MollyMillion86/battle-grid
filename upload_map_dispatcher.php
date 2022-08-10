@@ -18,7 +18,6 @@
 			
 			
 			$user = 'general';
-			// $user64 = base64_encode($user);
 			
 			$map = new MAP(array('db' => $db, 'user' => $user));
 			

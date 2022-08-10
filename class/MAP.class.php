@@ -83,12 +83,12 @@
 			if ($this->user !== '') {
 				
 				$tmpRes = $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+				
 
+				$result = ($this->stmt->rowCount() > 0) ? array('filename' => "img/maps/" . $this->user . "/" . base64_decode($tmpRes[0]['filename'])) : array('filename' => "img/maps/no-map.jpg");
 				
-				$result = array(
-					'filename' => "img/maps/" . $this->user . "/" . base64_decode($tmpRes[0]['filename'])
-				);
 				
+
 			} else {
 				
 				$result = array('error' => 'User not found');
