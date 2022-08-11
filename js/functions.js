@@ -19,14 +19,12 @@ $(document).ready(function() {
 	resizeDashboard();
 	
 	
+	
 	// get map
 	var data = {
 		"action" : "get"
 	};
-	
-	
-	
-	
+
 	// get user map on page load
 	$.ajax({
 	
@@ -41,10 +39,15 @@ $(document).ready(function() {
 				
 				$("#map").attr("src", Ret.filename);
 				
+				var string = sizeGrid("map");
+				
+				$("#grid").html(string);
+				
 			} else console.log(Ret.error);
 			
 			
 		}
+		
 		
 		
 	})
@@ -60,11 +63,7 @@ $(document).ready(function() {
 		
 		var file = $("#uploadFile")[0].files;
 		fd.append("file", file[0]);
-		// PUT o GET ????
-		// fd.append("action", "get");
-		
 
-		
 		$.ajax({
 			
 			url: "upload_map_dispatcher.php",
@@ -75,11 +74,7 @@ $(document).ready(function() {
 			success: function(ret) {
 				
 				var obj = JSON.parse(ret)
-				
-				console.log(obj);
-				
-				
-				
+
 			}
 			
 			
@@ -148,7 +143,7 @@ $(document).ready(function() {
 
 
 /**
-* @name	anchorMap
+* @name		anchorMap
 * 
 * Anchor map and grid to the bottom border of dashboard
 * 
@@ -169,7 +164,7 @@ function anchorMap(posFromItem, posToItem) {
 }
 
 /**
-* @name	resizeDashboard
+* @name		resizeDashboard
 * 
 * Dashboard width same as grid, remover and adder area widths
 * 
@@ -184,7 +179,7 @@ function resizeDashboard() {
 
 
 /**
-* @name battleGridPos
+* @name 	battleGridPos
 * 
 * Update checkers positions
 * 
@@ -296,35 +291,52 @@ function anchorChecker(checker) {
 
 
 /**
-* includeHTML
+* @name 	sizeGrid
 * 
-* include file HTML all'interno di un elemento con tag "w3-include-html"
+* Create a grid according to map dimensions.
+* Every square is 60x60 px.
 * 
+* @param		map				string			map ID 
+*
 */
-function includeHTML() {
-  var z, i, elmnt, file, xhttp;
-  /* Loop through a collection of all HTML elements: */
-  z = document.getElementsByTagName("*");
-  for (i = 0; i < z.length; i++) {
-    elmnt = z[i];
-    /*search for elements with a certain atrribute:*/
-    file = elmnt.getAttribute("w3-include-html");
-    if (file) {
-      /* Make an HTTP request using the attribute value as the file name: */
-      xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function() {
-        if (this.readyState == 4) {
-          if (this.status == 200) {elmnt.innerHTML = this.responseText;}
-          if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
-          /* Remove the attribute, and call this function once more: */
-          elmnt.removeAttribute("w3-include-html");
-          includeHTML();
-        }
-      }
-      xhttp.open("GET", file, true);
-      xhttp.send();
-      /* Exit the function: */
-      return;
-    }
-  }
+function sizeGrid(map) {
+
+		var widthGrid = 0;
+		var heightGrid = 0;
+		var numba = 1;
+		
+		var widthMap = $("#" + map).width();
+		var heightMap = $("#" + map).height();
+
+		var letter = 'A';
+		var string = '';
+		
+		while (heightMap > heightGrid) {
+			
+			string += '<div class="d-flex flex-row">';
+
+			widthGrid = 0;
+			numba = 0;
+			
+			while (widthMap > widthGrid) {
+
+				numba += 1;
+				
+				string += '<div class="box borded" id="' + letter + numba + '"></div>';
+				
+				widthGrid += 60;
+			}
+			
+			
+			string += '</div>';
+			
+			letter = String.fromCharCode(letter.charCodeAt(0) + 1);
+			
+			heightGrid += 60;
+			
+			
+		}
+		
+		return string;
+	
 }
