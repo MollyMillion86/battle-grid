@@ -95,7 +95,17 @@ $(document).ready(function() {
 	
 	
 	
-	
+	// every checker dragged into the checker remover area must be emptyied from HTML// click remove
+	 $("#remove").on("click", function() {
+		
+		$(".deleted").each(function() {
+			let id = $(this).attr("id");
+			battlegridPos('hardDelete', id);
+		});
+
+		$(".deleted").remove();
+	 });
+
 	
 	
 	
@@ -176,7 +186,7 @@ function anchorMap(posFromItem, posToItem) {
 */
 	
 function resizeDashboard() {
-	var outerWidth = $("#grid").outerWidth() + $("#checkerRemover").outerWidth() + $("#checkerAdder").outerWidth();
+	var outerWidth = $("#grid").outerWidth() + $("#checkerAdder").outerWidth();
 	$("#dashboard").outerWidth(outerWidth);
 }
 

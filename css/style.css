@@ -75,10 +75,6 @@ input[id^='coord'] {
 	width: 26.625rem !important;
 }
 
-.w100min {
-	min-width: 6.25rem !important;
-}
-
 .w33vw {
 	width: 33vw !important;
 }

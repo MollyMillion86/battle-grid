@@ -41,6 +41,10 @@
 				$return = $grid->remove($html_id, $pos_x, $pos_y);
 			break;
 			
+			case 'hardDelete': // remove button clicked
+				$return = $grid->hardRemove($html_id);
+			break;
+			
 			default:
 				$return = array("error" => "No action");
 			break;
