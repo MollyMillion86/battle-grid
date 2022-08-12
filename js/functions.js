@@ -9,15 +9,14 @@ $(document).ready(function() {
 		
 		anchorMap("#dashboard", "#map, #grid");
 		
-		resizeDashboard();
-		
+		setTimeout(function() {resizeIfNotEmpty(resizeDashboard)}, 1000);
 		
 	});
 	
 	
 	
-	resizeDashboard();
-	
+	setTimeout(function() {resizeIfNotEmpty(resizeDashboard)}, 1000);
+
 	
 	
 	// get map
@@ -176,6 +175,22 @@ function resizeDashboard() {
 }
 
 
+
+/**
+* @name		 resizeIfNotEmpty
+* 
+* Run function resizeDashboard if grid is completely created
+* 
+* @params			resizeDashboard		function
+* 
+*/
+function resizeIfNotEmpty(resizeDashboard) {	
+	
+	let div = document.getElementById("grid");
+	
+	if (div.childNodes.length > 0) resizeDashboard();
+	
+}
 
 
 /**
