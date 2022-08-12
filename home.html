@@ -30,7 +30,7 @@
 				<div class="mb-4">
 					<div class="d-flex flex-row justify-content-between align-items-center">
 						<p class="text-very-light-brown fw-bold mb-2">Upload a new map</p>
-						<span class="text-very-light-brown text-12 fw-normal">jpeg, jpg, png, bmp, images will be sized to 1020x1260px</span>
+						<span class="text-very-light-brown text-12 fw-normal">Upload <u>jpeg, jpg, png, bmp</u> files only</span>
 					</div>
 					<form class="d-flex flex-row" enctype="multipart/form-data">
 						<input type="file" class="form-control me-2" id="uploadFile">
@@ -136,9 +136,8 @@
 
 	<div class="d-flex flex-row">
 		<!-- MAP width: multiple of 60 -->
-		<div class="w1020 h1260">
-			<img id="map" src="#" alt="Workplace">
-		</div>
+		<img id="map" src="#" alt="Workplace">
+
 		<div class="d-flex flex-column justify-content-start align-items-center p-3" id="checkerAdder">
 			<div class="d-flex flex-row align-items-center mb-3">
 				<button type="button" class="btn btn-lg bg-brown text-white w150 h150" data-toggle="tooltip" data-placement="top" title="Add a checker">New checker <b class="text-48">+</b></button>
@@ -151,17 +150,10 @@
 	</div>
 	<!-- Grid: 16 x 20 squares
 		Single square: 60 x 60 px-->
-	<div class="d-flex flex-column position-absolute" id="grid">
-		<div w3-include-html="template/grid.html"></div>
-	</div>
+	<div class="d-flex flex-column position-absolute" id="grid"></div>
 
 </div>	
 	
-	
-	
-<script>
-	includeHTML();
-</script>
 	
 
 </body>

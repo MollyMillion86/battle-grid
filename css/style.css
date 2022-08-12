@@ -26,12 +26,6 @@ p {
 	z-index: 2;
 }
 
-#map, #grid {
-	width: 1020px !important;
-	height: 1260px !important;
-	/* left: 0; */
-	/* top: 220px; */
-}
 
 input[id^='coord'] {
 	width: 56px;
