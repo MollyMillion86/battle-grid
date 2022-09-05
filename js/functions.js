@@ -23,7 +23,10 @@ $(document).ready(function() {
 	var data = {
 		"action" : "get"
 	};
+	
+	
 
+	
 	// get user map on page load
 	$.ajax({
 	
@@ -38,20 +41,23 @@ $(document).ready(function() {
 				
 				$("#map").attr("src", Ret.filename);
 				
-				var string = sizeGrid("map");
 				
-				$("#grid").html(string);
+				setTimeout(function() {
+					
+					var string = sizeGrid("map");
+					
+					$("#grid").html(string);
+					
+				}, 500);
+
 				
 			} else console.log(Ret.error);
 			
 			
 		}
-		
-		
-		
-	})
-	
-	
+
+	});
+
 	
 	
 	
@@ -332,7 +338,7 @@ function sizeGrid(map) {
 		
 		var widthMap = $("#" + map).width();
 		var heightMap = $("#" + map).height();
-
+		
 		var letter = 'A';
 		var string = '';
 		
