@@ -341,6 +341,8 @@ function sizeGrid(map) {
 		
 		var letter = 'A';
 		var string = '';
+		let deltaWidth = 0;
+		let deltaHeight = 0;
 		
 		while (heightMap > heightGrid) {
 			
@@ -356,6 +358,9 @@ function sizeGrid(map) {
 				string += '<div class="box borded" id="' + letter + numba + '"></div>';
 				
 				widthGrid += 60;
+				
+				// if (widthGrid > widthMap) return widthGrid;
+				
 			}
 			
 			
@@ -365,9 +370,26 @@ function sizeGrid(map) {
 			
 			heightGrid += 60;
 			
-			
+			// if (heightGrid > heightMap) return heightGrid;
 		}
 		
+		
+		
+		
+		// black border on right
+		if (widthMap < widthGrid) deltaWidth = widthGrid - widthMap;
+		if (heightMap < heightGrid) deltaHeight = heightGrid - heightMap;
+		
+		$("#" + map).css({
+			"border-right" : deltaWidth + "px solid #5E4A3F",
+			"border-bottom" : deltaHeight + "px solid #5E4A3F"
+		})
+		
+		
 		return string;
+		
+		
+		
+		
 	
 }
