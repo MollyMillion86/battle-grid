@@ -31,14 +31,14 @@
 			return $result;
 		}
 		
-		/* 
-		public function put($html_id, $pos_x, $pos_y) {
+		
+		public function put($name, $type, $file) {
 			
-			$result = (!empty($html_id) && !empty($pos_x) && !empty($pos_y)) ? $this->putPos($html_id, $pos_x, $pos_y) : array();
+			$result = (!empty($name) && !empty($type) && !empty($file)) ? $this->putMap($name, $type, $file) : array("error" => "not");
 			
 			return $result;
 		}
-		
+		/* 
 		public function update($html_id, $pos_x, $pos_y) {
 			
 			$result = (!empty($html_id) && !empty($pos_x) && !empty($pos_y)) ? $this->updatePos($html_id, $pos_x, $pos_y) : array();
@@ -100,27 +100,46 @@
 			
 		}
 		
-		/* 
-		private function putPos($html_id, $posX, $posY) {
+		
+		private function putMap($nameB64, $type, $file) {
 			
-			$Query = 'INSERT INTO grid_pos (html_id, pos_x, pos_y, deleted) VALUES (:html_id, :pos_x, :pos_y, 0)';
+			
+			$this->db->beginTransaction();
+			
+			$Query1 = 'UPDATE maps SET deleted = 1 WHERE deleted = 0';
+			
+			$stmt1 = $this->db->prepare($Query1);
+			$return = $stmt1->execute();
+			
+			
+			$Query2 = 'INSERT INTO maps (user, filename, ext, deleted) VALUES (:user, :name, :type, 0)';
 
-			$stmt = $this->db->prepare($Query);
-			$stmt->bindParam(":html_id", $html_id, PDO::PARAM_STR);
-			$stmt->bindParam(":pos_x", $posX, PDO::PARAM_STR);
-			$stmt->bindParam(":pos_y", $posY, PDO::PARAM_STR);
-			$stmt->execute();
+			$stmt2 = $this->db->prepare($Query2);
+			$stmt2->bindParam(":user", $this->user, PDO::PARAM_STR);
+			$stmt2->bindParam(":name", $nameB64, PDO::PARAM_STR);
+			$stmt2->bindParam(":type", $type, PDO::PARAM_STR);
+			$return = $stmt2->execute();
 			
-			if ($this->db->lastInsertId() > 0) {
+
+			$filePath = getcwd();
+			$name = base64_decode($nameB64);
+			
+			$content = file_put_contents($filePath.'\\img\\maps\\'.$this->user.'\\'.$name, file_get_contents($_FILES['file']['tmp_name']));
+			
+			
+			if (($return) && ($content) && ($this->db->lastInsertId() > 0)) {
+				
 				$result = array("status" => 'ok');
+				
 			} else {
+				
 				$result = array("error" => 'Cannot save positions');
+				
 			}
-			
-			
+	
 			return $result;
 		}
-		 */
+		
 		
 		
 		/* 

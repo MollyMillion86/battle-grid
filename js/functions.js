@@ -60,26 +60,38 @@ $(document).ready(function() {
 
 	
 	
-	
+	// upload map
 	$("#uploadMap").click(function() {
 		
 		
 		var fd = new FormData();
 		
 		var file = $("#uploadFile")[0].files;
-		fd.append("file", file[0]);
+		fd.append('file', file[0]);
+		fd.append('action', 'put');
+		
 
 		$.ajax({
 			
-			url: "upload_map_dispatcher.php",
-			type: "POST",
+			url: 'upload_map_dispatcher.php',
+			type: 'POST',
 			data: fd,
-			contentType:false,
-			processData:false,
-			success: function(ret) {
+			enctype: 'multipart/form-data',
+			cache: false,
+			contentType: false,
+			processData: false,
+			
+			success: function() {
 				
-				var obj = JSON.parse(ret)
-
+				// move checkers on top left corner of the new map
+				$(".checker").each(function() {
+					let html_id = $(this).attr("id");
+					console.log(html_id);
+					battlegridPos('update', html_id, '12', '116');
+				});
+				
+				
+				location.reload();
 			}
 			
 			

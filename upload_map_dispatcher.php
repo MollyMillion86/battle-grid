@@ -5,118 +5,101 @@
 	ob_start();
 	
 	include_once("conf/DB/db.php");
+	include_once("class/MAP.class.php");
 	
-	if (isset($_POST['action'])) {
+	
+	
+	if ($_POST['action']) {
+	
 		
 		$error = false;
 		$ret = '';
-		
-		include_once("class/MAP.class.php");
-		
-		
-		if ($_POST['action'] == 'get') {
-			
-			
-			$user = 'general';
-			
-			$map = new MAP(array('db' => $db, 'user' => $user));
-			
-			$return = $map->get();
+		$user = 'general';
+	
+		$map = new MAP(array('db' => $db, 'user' => $user));
 			
 			
 			
+		// action
+		switch ($_POST['action']) {
 			
-		} else {
+			case 'get': // load map on startup
+				$return = $map->get();
+			break;
 			
-		
-		
-		
-			if ($_FILES['file']['name'] == '') {
+			case 'put': // checker moved for first time
+
+				if ($_FILES['file']['name'] == '') {
+					
+					$ret .= "File name empty";
+					$error = true;
+					
+				} else $name = base64_encode(trim($_FILES['file']['name']));
 				
-				$ret .= "File name empty<br>";
-				$error = true;
-			}
-			
-			if (($_FILES['file']['size'] > 3145728)) {
-				
-				$ret .= "File size > 3 MB<br>";
-				$error = true;
-			}
-			
-			if (($_FILES['file']['type'] !== "image/jpeg") ||
-				($_FILES['file']['type'] !== "image/png") || 
-				($_FILES['file']['type'] !== "image/bmp")) {
-		
-				$ret .= "File type must be jpg, png or bmp<br>";
-				$error = true;
-			}
-		
-		}
-		
-		// print_r($_FILES);
-		// image/jpeg
-		// image/png
-		// image/bmp
-		// 3145728 bytes = 3 MB
-		
-		/* if (!$error) {
-			
-			$user = 'general';
-			
-			$user64 = base64_encode($user);
-			$name = base64_encode(trim($_FILES['file']['name']));
-			$type = $_FILES['file']['type'];
-			$file = $_FILES['file']['tmp_name'];
-			
-			$err = file_put_contents('img/maps/$user/map.$type', file_get_contents($_FILES['file']['tmp_name']));
-			
-			
-			// if ($err > 0) {
-				
-				switch ($_POST['action']) {
+				if (($_FILES['file']['size'] > 3145728)) {
 					
-					case 'get': // refresh map
-						$return = $grid->get();
-					break;
-					
-					case 'put': // map updated for first time
-						$return = $grid->put($user64, $name, $type, $file);
-					break;
-					
-					case 'update': // map updated
-						$return = $grid->update();
-					break;
-					
-					case 'delete': // map removed
-						$return = $grid->remove();
-					break;
-					
-					default:
-						$return = array("error" => "No action");
-					break;
+					$ret .= "File size > 3 MB";
+					$error = true;
 					
 				}
 				
-			} else {
+				if (($_FILES['file']['type'] == "image/jpeg") ||
+					($_FILES['file']['type'] == "image/png") || 
+					($_FILES['file']['type'] == "image/bmp")) {
+					
+					$type = $_FILES['file']['type'];
+					$file = $_FILES['file']['tmp_name'];
+	
+				} else {
+					
+					$ret .= "File type must be jpg, png or bmp";
+					$error = true;
+					
+				}
+
 				
-				$ret .= "Cannot save file<br>";
-				$error = true;
+
 				
-			}
+				if (!$error) {
+				
+					$map = new MAP(array('db' => $db, 'user' => $user));
+					$return = $map->put($name, $type, $file);
+	
+				}
+				
+				
+				
+			break;
 			
+			/* case 'update': // checker already in battlegrid
+				$return = $grid->update($html_id, $pos_x, $pos_y);
+			break;
+			
+			case 'delete': // checker removed
+				$return = $grid->remove($html_id, $pos_x, $pos_y);
+			break;
+			
+			case 'hardDelete': // remove button clicked
+				$return = $grid->hardRemove($html_id);
+			break; */
+			
+			default:
+				$return = array("error" => "No action");
+			break;
+	
+			
+		}
+
 		
-			
-			
-		} else {
-			
-			$return = array("error" => $ret);
-			
-			
-		} */
+		if (($error) || isset($return['error'])) $return = array('error' => $ret);
+
 
 		echo json_encode($return);
 
 	}
+	
+	
+	
 	
 	
 	
