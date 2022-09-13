@@ -15,22 +15,20 @@ $(document).ready(function() {
 	setTimeout(function() {resizeIfNotEmpty(resizeDashboard)}, 1000);
 
 	
+
+
+	/**
+	* New checkers modal
+	*/
+	$("#availSymbols").selectable();
+	$("#availColors").selectable();
 	
+
+
 	// get map
 	var data = {
 		"action" : "get"
 	};
-	
-	
-	// new checker modal
-	$('.selectable').mouseover(function() {
-		$(this).addClass("shadow");	
-	});
-	// new checker modal
-	$('.selectable').mouseleave(function() {
-		$(this).removeClass("shadow");
-	});
-
 	
 	// get user map on page load
 	$.ajax({

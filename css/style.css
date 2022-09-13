@@ -149,3 +149,17 @@ input.border-brown::placeholder {
 	color: #F3E2D2;
 	background-color: #6d5649;
 }
+
+/* ADD CHECKERS MODAL */
+svg.selectable, div.selectable {
+	cursor: pointer;
+}
+
+svg.selectable:hover, div.selectable:hover {
+	box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}
+
+svg.selectable.ui-selected, div.selectable.ui-selected {
+	border: 2px solid #6d5649;
+	box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}
