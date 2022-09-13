@@ -16,15 +16,15 @@ conf/create-database.sql
 After that, create a new PDO connection:
 
 ```
-$userdb = [ DATABASE USER ];
+$userdb = [ YOUR DATABASE USER ];
 $host = "localhost";
-$passdb = [ DATABASE PASSWORD ];
-$dbname = [ DATABASE NAME ];
+$passdb = [ YOUR DATABASE PASSWORD ];
+$dbname = battle_grid;
 
 
 try {	
 	
-	$db2 = new PDO("mysql:host=" . $host . ";dbname=" . $dbname, $userdb, $passdb);
+	$db = new PDO("mysql:host=" . $host . ";dbname=" . $dbname, $userdb, $passdb);
 	
 } catch (PDOException $e) {
 
