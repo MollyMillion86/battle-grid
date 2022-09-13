@@ -22,6 +22,14 @@ $(document).ready(function() {
 	};
 	
 	
+	// new checker modal
+	$('.selectable').mouseover(function() {
+		$(this).addClass("shadow");	
+	});
+	// new checker modal
+	$('.selectable').mouseleave(function() {
+		$(this).removeClass("shadow");
+	});
 
 	
 	// get user map on page load
