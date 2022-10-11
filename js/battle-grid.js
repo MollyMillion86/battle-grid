@@ -129,7 +129,7 @@ $(document).ready(function() {
 
 	
 	// jQuery UI - Drag checkers
-	$(".checker").each(function(i, v) {
+	$("#checkers > .checker").each(function(i, v) {
 		
 		var id = $(v).attr("id");
 		$("#" + id).draggable();
