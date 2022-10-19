@@ -163,3 +163,8 @@ svg.selectable.ui-selected, div.selectable.ui-selected {
 	border: 2px solid #6d5649;
 	box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
 }
+
+/* POSITIONS */
+.zindex-2000 {
+	z-index: 2000;
+}

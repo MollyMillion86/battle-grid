@@ -22,6 +22,7 @@
 		$pos_y = isset($data['pos_y']) ? trim($data['pos_y']) : '';
 		
 	
+	
 		// action
 		switch ($_POST['action']) {
 			

@@ -97,7 +97,9 @@ function battlegridPos(action, html_id, pos_x, pos_y) {
 		if (result.deleted == '0') $("#" + html_id).removeClass("deleted");
 
 		if (result.error) console.log(result.error);
-
+		
+		// PUT
+		if (result.status) console.log(result.status);
 	});
 	
 }

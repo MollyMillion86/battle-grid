@@ -27,11 +27,11 @@
 			return $result;
 		}
 		
-		
+		// $html_id, $pos_y, $pos_y
 		public function put($html_id, $pos_x, $pos_y) {
-			
-			$result = (!empty($html_id) && !empty($pos_x) && !empty($pos_y)) ? $this->putPos($html_id, $pos_x, $pos_y) : array();
-			
+			// empty even if variable is 0
+			// $result = (!empty($html_id) && !empty($pos_x) && !empty($pos_y)) ? $this->putPos($html_id, $pos_x, $pos_y) : array("VUOTO");
+			$result = $this->putPos($html_id, $pos_x, $pos_y);
 			return $result;
 		}
 		
@@ -100,20 +100,33 @@
 		
 		private function putPos($html_id, $posX, $posY) {
 			
-			$Query = 'INSERT INTO grid_pos (html_id, pos_x, pos_y, deleted) VALUES (:html_id, :pos_x, :pos_y, 0)';
-
-			$stmt = $this->db->prepare($Query);
-			$stmt->bindParam(":html_id", $html_id, PDO::PARAM_STR);
-			$stmt->bindParam(":pos_x", $posX, PDO::PARAM_STR);
-			$stmt->bindParam(":pos_y", $posY, PDO::PARAM_STR);
-			$stmt->execute();
 			
-			if ($this->db->lastInsertId() > 0) {
-				$result = array("status" => 'ok');
+			
+			$present = $this->checkIfElemPresent($html_id);
+			
+			if ($present == 1) {
+				
+				$result = array("error" => 'Checker name already in use');
+				
 			} else {
-				$result = array("error" => 'Cannot save positions');
+				
+				$Query = 'INSERT INTO grid_pos (html_id, pos_x, pos_y, deleted) VALUES (:html_id, :pos_x, :pos_y, 0)';
+
+				$stmt = $this->db->prepare($Query);
+				$stmt->bindParam(":html_id", $html_id, PDO::PARAM_STR);
+				$stmt->bindParam(":pos_x", $posX, PDO::PARAM_STR);
+				$stmt->bindParam(":pos_y", $posY, PDO::PARAM_STR);
+				$stmt->execute();
+				
+				if ($this->db->lastInsertId() > 0) {
+					$result = array("status" => 'ok');
+				} else {
+					$result = array("error" => 'Cannot save positions');
+				}
+				
 			}
 			
+
 			
 			return $result;
 		}
