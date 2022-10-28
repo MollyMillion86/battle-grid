@@ -8,6 +8,8 @@ CREATE TABLE `grid_pos` (
  `html_id` varchar(255) NOT NULL,
  `pos_x` varchar(10) NOT NULL DEFAULT '0',
  `pos_y` varchar(10) NOT NULL DEFAULT '0',
+ `symbol` varchar(255) NOT NULL DEFAULT 'blue',
+ `color` varchar(255) NOT NULL DEFAULT 'bi bi-universal-access',
  `deleted` varchar(1) default '0',
  primary key (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;

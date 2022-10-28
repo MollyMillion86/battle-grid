@@ -1,5 +1,8 @@
 $(document).ready(function() {
 	
+	// load checkers on startup
+	$("#availSymbols").load("checkers.html");
+
 
 	// On page load or viewport change
 	anchorMap("#dashboard", "#map, #grid");
@@ -16,7 +19,8 @@ $(document).ready(function() {
 	setTimeout(function() {resizeIfNotEmpty(resizeDashboard)}, 1000);
 
 	
-
+	// get available checkers
+	battlegridPos("get");
 
 	/**
 	* New checkers modal
@@ -47,7 +51,7 @@ $(document).ready(function() {
 		// symbol checked
 		if (!$("#availSymbols > svg.selectable").hasClass("ui-selected")) {
 			error += 'Symbol required.<br>';
-		} else symbol = true;
+		} else symbol = $("#availSymbols > svg.ui-selected").attr("class").replace("m-1 rounded selectable", "").replace("ui-selectee ui-selected", "").replace("bi", "");
 		
 		// color checked
 		if (!$("#availColors > div.selectable").hasClass("ui-selected")) {
@@ -60,23 +64,21 @@ $(document).ready(function() {
 		if (error === '') {
 			
 			// AJAX
-			battlegridPos("put", text, pos_x, pos_y);
+			battlegridPos("put", text, pos_x, pos_y, symbol, color);
 			
-			// return ID ????
 
-			if (symbol === true) {
+			// clone selected checker
+			$("#checkers").append('<div class="checker box rounded ' + colors[color] + ' bg-gradient position-absolute ui-draggable ui-draggable-handle" id="' + text + '" onmouseup="anchorChecker(this);" style="left:12px;top:116px;"></div>');
+			$("#availSymbols > svg.ui-selected").clone().appendTo("#checkers > div:last-of-type").removeClass("m-1 rounded selectable ui-selectee ui-selected");
+			$("#" + text).draggable();
+			
+			// reset and close modal
+			$("#name").val("");
+			$("#availSymbols > svg.ui-selected, #availColors > div.ui-selected").removeClass("ui-selected");
+			
+			$("#addCheckerModal").modal("hide");
 				
-				// clone selected checker
-				$("#checkers").append('<div class="checker box rounded ' + colors[color] + ' bg-gradient position-absolute ui-draggable ui-draggable-handle" id="' + text + '" onmouseup="anchorChecker(this);" style="left:12px;top:116px;"></div>');
-				$("#availSymbols > svg.ui-selected").clone().appendTo("#checkers > div:last-of-type").removeClass("m-1 rounded selectable ui-selectee ui-selected");
-				$("#" + text).draggable();
-				
-				$("#name").val("");
-				$("#availSymbols > svg.ui-selected, #availColors > div.ui-selected").removeClass("ui-selected");
-				
-				$("#addCheckerModal").modal("hide");
-				
-			}
+			
 			
 	
 		} else {

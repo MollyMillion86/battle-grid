@@ -52,28 +52,68 @@ function resizeIfNotEmpty(resizeDashboard) {
 }
 
 
+
+
 /**
-* @name 	battleGridPos
+ * @name	availableCheckers
+ * 
+ * Create checkers according with received datasets and
+ * append them into the grid
+ * 
+ * @param  data 		object --> array --> .html_id .symbol .color .pos_x .pos_y .deleted
+ * 						
+ */
+function availableCheckers(data) {
+
+	for (let x in data) {
+
+		$("#checkers").append('<div class="checker box rounded ' + colors[data[x].color] + ' bg-gradient position-absolute ui-draggable ui-draggable-handle" id="' + data[x].html_id + '" onmouseup="anchorChecker(this);" style="left:' + data[x].pos_x + 'px;top:' + data[x].pos_y + 'px;"></div>');
+		
+		// class "bi bi-..." REMOVE from DB
+		$("#availSymbols > svg.selectable.bi." + data[x].symbol.replace("bi ", "")).clone().appendTo("#checkers > #" + data[x].html_id).removeClass("m-1 rounded selectable ui-selectee ui-selected");
+
+		$("#" + data[x].html_id).draggable();
+		
+	}
+
+}	
+	
+	
+
+
+
+
+/**
+* @name 	battlegridPos
 * 
 * Update checkers positions
 * 
 * @params			action				string				'get' | 'put' | 'update' | 'delete'
-* 					html_id				string				checker ID
+* 					html_id			string || undefined		checker ID
 * 					pos_x				string				checker left position
 * 					pos_y				string				checker top position
+* 					symbol				string				checker symbol name @see checkers.html
+* 					color				string				checker color @see colors.conf.battle-grid.js
 * 
 */
-function battlegridPos(action, html_id, pos_x, pos_y) {
+function battlegridPos(action, html_id, pos_x, pos_y, symbol, color) {
 
 
 	var posObj = {
 		'html_id' : html_id,
 		'pos_x' : (pos_x !== undefined) ? pos_x.replace("px", "") : '0',
-		'pos_y' : (pos_y !== undefined) ? pos_y.replace("px", "") : '0'
+		'pos_y' : (pos_y !== undefined) ? pos_y.replace("px", "") : '0',
+		'symbol' : symbol,
+		'color' : color
 	};
 	
 
 	var data = JSON.stringify(posObj);
+
+	
+
+
+
 
 	$.post("battlegrid_dispatcher.php", {
 		
@@ -84,6 +124,11 @@ function battlegridPos(action, html_id, pos_x, pos_y) {
 
 		var result = JSON.parse(ret);
 
+		// get every available checker
+		if (!html_id) availableCheckers(result);
+		
+
+		// get only requested checker
 		if ((result.pos_x) && (result.pos_y)) {
 			
 			$("#" + html_id).css({
@@ -100,7 +145,12 @@ function battlegridPos(action, html_id, pos_x, pos_y) {
 		
 		// PUT
 		if (result.status) console.log(result.status);
+
+		
+		
 	});
+	
+
 	
 }
 

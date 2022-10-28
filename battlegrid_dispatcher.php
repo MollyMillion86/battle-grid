@@ -17,10 +17,11 @@
 		$data = json_decode($_POST['data'], true);
 		
 		
-		$html_id = trim($data['html_id']);
+		$html_id = isset($data['html_id']) ? trim($data['html_id']) : false;
 		$pos_x = isset($data['pos_x']) ? trim($data['pos_x']) : '';
 		$pos_y = isset($data['pos_y']) ? trim($data['pos_y']) : '';
-		
+		$symbol = isset($data['symbol']) ? trim ($data['symbol']) : '';
+		$color = isset($data['color']) ? trim ($data['color']) : '';
 	
 	
 		// action
@@ -31,7 +32,7 @@
 			break;
 			
 			case 'put': // checker moved for first time
-				$return = $grid->put($html_id, $pos_x, $pos_y);
+				$return = $grid->put($html_id, $pos_x, $pos_y, $symbol, $color);
 			break;
 			
 			case 'update': // checker already in battlegrid
