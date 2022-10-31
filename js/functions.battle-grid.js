@@ -110,10 +110,6 @@ function battlegridPos(action, html_id, pos_x, pos_y, symbol, color) {
 
 	var data = JSON.stringify(posObj);
 
-	
-
-
-
 
 	$.post("battlegrid_dispatcher.php", {
 		
@@ -141,18 +137,41 @@ function battlegridPos(action, html_id, pos_x, pos_y, symbol, color) {
 		if (result.deleted == '1') $("#" + html_id).addClass("deleted");
 		if (result.deleted == '0') $("#" + html_id).removeClass("deleted");
 
-		if (result.error) console.log(result.error);
+		if (result.error) sessionStorage.setItem("error", result.error)
+		
 		
 		// PUT
-		if (result.status) console.log(result.status);
+		if (result.status) sessionStorage.setItem("status", result.status);
+		
 
-		
-		
 	});
-	
 
-	
+
+
 }
+
+
+/**
+ * @name showAlert
+ * 
+ * Text and show Bootstrap red alert with icon according to
+ * given name.
+ * ID tags included must be:
+ * 		- [ name ]					main div
+ * 		- #title-[ name ]			
+ * 		- #msg-[ name ]
+ * 
+ * @param  name 
+ * 
+ */
+
+function showAlert(name, titleError, msgError) {
+
+	$("#title-" + name).text(titleError);
+	$("#msg-" + name).html(msgError);
+	$("#" + name).removeClass("d-none").addClass("show");
+}
+
 
 
 

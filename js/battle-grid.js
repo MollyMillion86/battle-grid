@@ -59,33 +59,33 @@ $(document).ready(function() {
 		} else color = $("#availColors > div.ui-selected").attr("title");
 		
 		
+		sessionStorage.setItem("error", error);
 		
-		
-		if (error === '') {
+		if (sessionStorage.getItem("error") === '') {
 			
 			// AJAX
-			battlegridPos("put", text, pos_x, pos_y, symbol, color);
-			
+			$.when(battlegridPos("put", text, pos_x, pos_y, symbol, color)).done(function() {
 
-			// clone selected checker
-			$("#checkers").append('<div class="checker box rounded ' + colors[color] + ' bg-gradient position-absolute ui-draggable ui-draggable-handle" id="' + text + '" onmouseup="anchorChecker(this);" style="left:12px;top:116px;"></div>');
-			$("#availSymbols > svg.ui-selected").clone().appendTo("#checkers > div:last-of-type").removeClass("m-1 rounded selectable ui-selectee ui-selected");
-			$("#" + text).draggable();
-			
-			// reset and close modal
-			$("#name").val("");
-			$("#availSymbols > svg.ui-selected, #availColors > div.ui-selected").removeClass("ui-selected");
-			
-			$("#addCheckerModal").modal("hide");
+				if (sessionStorage.getItem("error") === "") {
+
+					// clone selected checker
+					$("#checkers").append('<div class="checker box rounded ' + colors[color] + ' bg-gradient position-absolute ui-draggable ui-draggable-handle" id="' + text + '" onmouseup="anchorChecker(this);" style="left:12px;top:116px;"></div>');
+					$("#availSymbols > svg.ui-selected").clone().appendTo("#checkers > div:last-of-type").removeClass("m-1 rounded selectable ui-selectee ui-selected");
+					$("#" + text).draggable();
+					
+					// reset and close modal
+					$("#name").val("");
+					$("#availSymbols > svg.ui-selected, #availColors > div.ui-selected").removeClass("ui-selected");
+					
+					$("#addCheckerModal").modal("hide");
 				
+				} else showAlert("alert", "Something went wrong...", sessionStorage.getItem("error"));
 			
-			
+			});
 	
 		} else {
 			// show BS alert if error
-			$("#title-alert").text("Something went wrong...");
-			$("#msg-alert").html(error);
-			$("#alert").removeClass("d-none").addClass("show");
+			showAlert("alert", "Something went wrong...", sessionStorage.getItem("error"));
 			
 		}
 		
@@ -124,7 +124,7 @@ $(document).ready(function() {
 				}, 500);
 
 				
-			} else console.log(Ret.error);
+			} else sessionStorage.setItem("error", Ret.error);
 			
 			
 		}
