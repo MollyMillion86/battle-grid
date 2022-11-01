@@ -111,6 +111,7 @@ function battlegridPos(action, html_id, pos_x, pos_y, symbol, color) {
 	var data = JSON.stringify(posObj);
 
 
+
 	$.post("battlegrid_dispatcher.php", {
 		
 		"action" : action,
@@ -146,9 +147,80 @@ function battlegridPos(action, html_id, pos_x, pos_y, symbol, color) {
 
 	});
 
-
+	
 
 }
+
+
+
+
+function battlegridPos2(action, html_id, pos_x, pos_y, symbol, color) {
+
+
+	var posObj = {
+		'html_id' : html_id,
+		'pos_x' : (pos_x !== undefined) ? pos_x.replace("px", "") : '0',
+		'pos_y' : (pos_y !== undefined) ? pos_y.replace("px", "") : '0',
+		'symbol' : symbol,
+		'color' : color
+	};
+	
+
+	var data = JSON.stringify(posObj);
+
+	$.ajaxSetup({
+		beforeSend: function(req, setting) {
+			req._data = setting.data
+		}
+	})
+
+	let superset = $.post("battlegrid_dispatcher.php", {
+		
+		"action" : action,
+		"data" : data
+		
+	}/* , function(ret) {
+
+		var result = JSON.parse(ret);
+
+		// get every available checker
+		if (!html_id) availableCheckers(result);
+		
+
+		// get only requested checker
+		if ((result.pos_x) && (result.pos_y)) {
+			
+			$("#" + html_id).css({
+				"left" : result.pos_x + "px",
+				"top" : result.pos_y + "px"
+			});
+			
+		}
+		
+		if (result.deleted == '1') $("#" + html_id).addClass("deleted");
+		if (result.deleted == '0') $("#" + html_id).removeClass("deleted");
+
+		if (result.error) sessionStorage.setItem("error", result.error)
+		
+		
+		// PUT
+		if (result.status) sessionStorage.setItem("status", result.status);
+		
+
+	} */).always(function(ret) {
+		console.log("ALWAYS "  +ret)
+
+		return ret
+
+	});
+
+	return superset
+
+}
+
+
+
+
 
 
 /**

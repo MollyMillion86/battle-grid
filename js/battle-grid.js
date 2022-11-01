@@ -64,9 +64,47 @@ $(document).ready(function() {
 		if (sessionStorage.getItem("error") === '') {
 			
 			// AJAX
-			$.when(battlegridPos("put", text, pos_x, pos_y, symbol, color)).done(function() {
+			// $.when(battlegridPos("put", text, pos_x, pos_y, symbol, color)).always(function(test) {
+			battlegridPos("put", text, pos_x, pos_y, symbol, color);
+			
+			let intervalId = setInterval(function() {
+				
+				if (sessionStorage.getItem("status") === 'ok') {
 
-				if (sessionStorage.getItem("error") === "") {
+					// clone selected checker
+					$("#checkers").append('<div class="checker box rounded ' + colors[color] + ' bg-gradient position-absolute ui-draggable ui-draggable-handle" id="' + text + '" onmouseup="anchorChecker(this);" style="left:12px;top:116px;"></div>');
+					$("#availSymbols > svg.ui-selected").clone().appendTo("#checkers > div:last-of-type").removeClass("m-1 rounded selectable ui-selectee ui-selected");
+					$("#" + text).draggable();
+					
+					// reset and close modal
+					$("#name").val("");
+					$("#availSymbols > svg.ui-selected, #availColors > div.ui-selected").removeClass("ui-selected");
+					
+					$("#addCheckerModal").modal("hide");
+
+					
+
+				} else {
+
+					if (sessionStorage.getItem("error") !== "") {
+						showAlert("alert", "Something went wrong...", sessionStorage.getItem("error"));
+						
+					}
+
+				}
+
+			}, 500)
+
+
+			/* if ($("#alert").hasClass("d-none") || !($("#addCheckerModal").hasClass("show"))) {
+				clearInterval(intervalId)
+				if (sessionStorage.getItem("status")) sessionStorage.removeItem("status")
+				if (sessionStorage.getItem("error")) sessionStorage.removeItem("status")
+			} */
+			// console.log(test)
+
+			/* 
+				// if (sessionStorage.getItem("error") === "") {
 
 					// clone selected checker
 					$("#checkers").append('<div class="checker box rounded ' + colors[color] + ' bg-gradient position-absolute ui-draggable ui-draggable-handle" id="' + text + '" onmouseup="anchorChecker(this);" style="left:12px;top:116px;"></div>');
@@ -79,9 +117,9 @@ $(document).ready(function() {
 					
 					$("#addCheckerModal").modal("hide");
 				
-				} else showAlert("alert", "Something went wrong...", sessionStorage.getItem("error"));
+				} else showAlert("alert", "Something went wrong...", sessionStorage.getItem("error")); */
 			
-			});
+			// });
 	
 		} else {
 			// show BS alert if error
