@@ -1,5 +1,9 @@
 $(document).ready(function() {
 	
+	// load checkers on startup
+	$("#availSymbols").load("checkers.html");
+
+
 	// On page load or viewport change
 	anchorMap("#dashboard", "#map, #grid");
 	window.addEventListener("resize", function() {
@@ -15,14 +19,86 @@ $(document).ready(function() {
 	setTimeout(function() {resizeIfNotEmpty(resizeDashboard)}, 1000);
 
 	
+	// get available checkers
+	battlegridPos("get");
+
+	/**
+	* New checkers modal
+	*/
+	$("#availSymbols").selectable();
+	$("#availColors").selectable();
 	
+	
+	
+
+	
+	
+	// click on #add-checker-btn
+	$("#add-checker-btn").click(function() {
+		
+		let error = '';
+		
+		// text
+		let text = $("#name").val();
+		let ret = text !== '' ?? text.match(/([a-zA-Z0-9]-)+\g/);
+		
+		if (text === '') error += 'Name required.<br>';
+		if (!ret) error += 'Name must contain letters, numbers and/or - _.<br>';
+		
+	
+		let symbol, color; 
+
+		// symbol checked
+		if (!$("#availSymbols > svg.selectable").hasClass("ui-selected")) {
+			error += 'Symbol required.<br>';
+		} else symbol = $("#availSymbols > svg.ui-selected").attr("class").replace("m-1 rounded selectable", "").replace("ui-selectee ui-selected", "").replace("bi", "");
+		
+		// color checked
+		if (!$("#availColors > div.selectable").hasClass("ui-selected")) {
+			error += 'Color required.<br>';
+		} else color = $("#availColors > div.ui-selected").attr("title");
+		
+		
+		sessionStorage.setItem("error", error);
+		
+		if (sessionStorage.getItem("error") === '') {
+			
+			// AJAX
+			$.when(battlegridPos("put", text, pos_x, pos_y, symbol, color)).done(function() {
+
+				if (sessionStorage.getItem("error") === "") {
+
+					// clone selected checker
+					$("#checkers").append('<div class="checker box rounded ' + colors[color] + ' bg-gradient position-absolute ui-draggable ui-draggable-handle" id="' + text + '" onmouseup="anchorChecker(this);" style="left:12px;top:116px;"></div>');
+					$("#availSymbols > svg.ui-selected").clone().appendTo("#checkers > div:last-of-type").removeClass("m-1 rounded selectable ui-selectee ui-selected");
+					$("#" + text).draggable();
+					
+					// reset and close modal
+					$("#name").val("");
+					$("#availSymbols > svg.ui-selected, #availColors > div.ui-selected").removeClass("ui-selected");
+					
+					$("#addCheckerModal").modal("hide");
+				
+				} else showAlert("alert", "Something went wrong...", sessionStorage.getItem("error"));
+			
+			});
+	
+		} else {
+			// show BS alert if error
+			showAlert("alert", "Something went wrong...", sessionStorage.getItem("error"));
+			
+		}
+		
+	
+	})
+	
+	
+	
+
 	// get map
 	var data = {
 		"action" : "get"
 	};
-	
-	
-
 	
 	// get user map on page load
 	$.ajax({
@@ -48,7 +124,7 @@ $(document).ready(function() {
 				}, 500);
 
 				
-			} else console.log(Ret.error);
+			} else sessionStorage.setItem("error", Ret.error);
 			
 			
 		}
@@ -123,7 +199,7 @@ $(document).ready(function() {
 
 	
 	// jQuery UI - Drag checkers
-	$(".checker").each(function(i, v) {
+	$("#checkers > .checker").each(function(i, v) {
 		
 		var id = $(v).attr("id");
 		$("#" + id).draggable();

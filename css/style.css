@@ -6,6 +6,14 @@ p {
 	color: #5E4A3F;
 }
 
+a {
+	color: #5E4A3F !important;
+}
+
+a:hover {
+	font-weight: bold;
+}
+
 /* Dashboard height must be multiple of 60 */
 #dashboard {
 	/* height: 296px !important; */
@@ -54,6 +62,17 @@ input[id^='coord'] {
 	background-color: #d3d3d3 !important;
 }
 
+.border-very-light-brown {
+	border: 1px solid #F3E2D2 !important;
+}
+
+.border-brown {
+	border: 1px solid #8e8078 !important;
+}
+
+input.border-brown::placeholder {
+	color: #aea49f !important;
+}
 
 
 /* MARGINS */
@@ -89,7 +108,6 @@ input[id^='coord'] {
 
 
 /* TEXTS */
-
 .text-very-light-brown {
 	color: #F3E2D2 !important;
 }
@@ -108,4 +126,45 @@ input[id^='coord'] {
 
 .text-48 {
 	font-size: 3rem !important;
+}
+
+/* BUTTONS */
+.btn-brown {
+	color: #F3E2D2;
+	background-color: #6d5649;
+}
+
+.btn-brown:hover {
+	color: #F3E2D2;
+	background-color: #5E4A3F;
+}
+
+.btn-outline-brown {
+	background-color: none;
+	border: 1px solid #6d5649;
+	color: #6d5649;
+}
+
+.btn-outline-brown:hover {
+	color: #F3E2D2;
+	background-color: #6d5649;
+}
+
+/* ADD CHECKERS MODAL */
+svg.selectable, div.selectable {
+	cursor: pointer;
+}
+
+svg.selectable:hover, div.selectable:hover {
+	box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}
+
+svg.selectable.ui-selected, div.selectable.ui-selected {
+	border: 2px solid #6d5649;
+	box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}
+
+/* POSITIONS */
+.zindex-2000 {
+	z-index: 2000;
 }
