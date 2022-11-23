@@ -124,7 +124,10 @@
 			$filePath = getcwd();
 			$name = base64_decode($nameB64);
 			
-			$content = file_put_contents($filePath.'\\img\\maps\\'.$this->user.'\\'.$name, file_get_contents($_FILES['file']['tmp_name']));
+			// WIN
+			// $content = file_put_contents($filePath.'\\img\\maps\\'.$this->user.'\\'.$name, file_get_contents($_FILES['file']['tmp_name']));
+			// UNIX
+			$content = file_put_contents($filePath.'/img/maps/'.$this->user.'/'.$name, file_get_contents($_FILES['file']['tmp_name']));
 			
 			
 			if (($return) && ($content) && ($this->db->lastInsertId() > 0)) {
