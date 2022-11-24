@@ -136,40 +136,56 @@ $(document).ready(function() {
 	// upload map
 	$("#uploadMap").click(function() {
 		
+		if ($("#uploadFile").length == 1) {
 		
-		var fd = new FormData();
-		
-		var file = $("#uploadFile")[0].files;
-		fd.append('file', file[0]);
-		fd.append('action', 'put');
-		
+			var fd = new FormData();
+			
+			var file = $("#uploadFile")[0].files;
+			fd.append('file', file[0]);
+			fd.append('action', 'put');
+			
 
-		$.ajax({
-			
-			url: 'upload_map_dispatcher.php',
-			type: 'POST',
-			data: fd,
-			enctype: 'multipart/form-data',
-			cache: false,
-			contentType: false,
-			processData: false,
-			
-			success: function() {
+			$.ajax({
 				
-				// move checkers on top left corner of the new map
-				$(".checker").each(function() {
-					let html_id = $(this).attr("id");
-					console.log(html_id);
-					battlegridPos('update', html_id, '12', '116');
-				});
+				url: 'upload_map_dispatcher.php',
+				type: 'POST',
+				data: fd,
+				enctype: 'multipart/form-data',
+				cache: false,
+				contentType: false,
+				processData: false,
+				
+				success: function(ret) {
+					
+					
+					console.log(ret);
+					
+					let msg = JSON.parse(ret)
+					
+					if (msg.error) {
+						sessionStorage.setItem("error", msg.error)
+						// show BS alert if error
+						showAlert("alert", "Something went wrong...", sessionStorage.getItem("error"));
+					} else {
+						
+						// move checkers on top left corner of the new map
+						$(".checker").each(function() {
+							let html_id = $(this).attr("id");
+							
+							battlegridPos('update', html_id, '12', '116');
+						});
+					
+					
+						location.reload();
+					}
+					
+					
+						
+				}
 				
 				
-				location.reload();
-			}
-			
-			
-		})
-		
+			})
+		}
 		
 	});
 	
