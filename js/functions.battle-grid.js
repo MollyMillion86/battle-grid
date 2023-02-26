@@ -106,7 +106,6 @@ function battlegridPos(action, html_id, pos_x, pos_y, symbol, color) {
 		'symbol' : symbol,
 		'color' : color
 	};
-	
 
 	var data = JSON.stringify(posObj);
 
@@ -192,7 +191,6 @@ function anchorChecker(checker) {
 	
 	
 	if (!($("#" + id).hasClass("deleted"))) {
-		
 
 		 $("#grid div.box.borded").droppable({
 			drop: function(event, ui) {
@@ -220,7 +218,9 @@ function anchorChecker(checker) {
 		});
 		
 		
-	} else $("#" + id).removeClass('deleted');
+	} else {
+		$("#" + id).removeClass('deleted');
+	}
 	
 
 	

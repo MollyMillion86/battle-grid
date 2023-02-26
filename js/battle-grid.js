@@ -157,9 +157,6 @@ $(document).ready(function() {
 				
 				success: function(ret) {
 					
-					
-					console.log(ret);
-					
 					let msg = JSON.parse(ret)
 					
 					if (msg.error) {
@@ -170,6 +167,7 @@ $(document).ready(function() {
 						
 						// move checkers on top left corner of the new map
 						$(".checker").each(function() {
+
 							let html_id = $(this).attr("id");
 							
 							battlegridPos('update', html_id, '12', '116');
@@ -192,25 +190,7 @@ $(document).ready(function() {
 	
 	
 	
-	
-	
-	
-	
-	// every checker dragged into the checker remover area must be emptyied from HTML// click remove
-	 $("#remove").on("click", function() {
-		
-		$(".deleted").each(function() {
-			let id = $(this).attr("id");
-			battlegridPos('hardDelete', id);
-		});
 
-		$(".deleted").remove();
-	 });
-
-	
-	
-	
-	
 	
 
 	
@@ -236,14 +216,16 @@ $(document).ready(function() {
 			var posX = pos.left;
 			var posY = pos.top;
 
-			
 			// AJAX remove
-			battlegridPos("delete", ui.draggable[0].id, posX.toString(), posY.toString());
+			// battlegridPos("delete", ui.draggable[0].id, posX.toString(), posY.toString());
+			battlegridPos("hardDelete", "#" + ui.draggable[0].id);
 			
 			
 			// checker opacity and hold it on removing area
-			$("#" + ui.draggable[0].id).addClass("deleted");
+			// $("#" + ui.draggable[0].id).addClass("deleted");
+			$("#" + ui.draggable[0].id).remove();
 			
+
 		}
 	});
 	
