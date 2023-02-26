@@ -52,9 +52,9 @@
 		
 		private function checkIfElemPresent($html_id = false) {
 			
-			$Query = 'SELECT * FROM grid_pos';
+			$Query = 'SELECT * FROM grid_pos WHERE deleted = 0';
 			
-			if ($html_id) $Query .=  ' WHERE html_id = :html_id';
+			if ($html_id) $Query .=  ' AND html_id = :html_id';
 
 			$stmt = $this->db->prepare($Query);
 			if ($html_id) $stmt->bindParam(":html_id", $html_id, PDO::PARAM_STR);
@@ -185,13 +185,10 @@
 		
 		private function deleteElemFromId($html_id) {
 			
-			// $Query = 'UPDATE grid_pos SET pos_x = :pos_x, pos_y = :pos_y, deleted = 1 WHERE html_id = :html_id';
-			$Query = 'DELETE FROM grid_pos WHERE html_id = :html_id and deleted = 1';
+			$Query = 'UPDATE grid_pos set deleted = 1 WHERE html_id = :html_id';
 
 			$stmt = $this->db->prepare($Query);
 			$stmt->bindParam(":html_id", $html_id, PDO::PARAM_STR);
-			// $stmt->bindParam(":pos_x", $posX, PDO::PARAM_STR);
-			// $stmt->bindParam(":pos_y", $posY, PDO::PARAM_STR);
 			$stmt->execute();
 			
 			$result = ($stmt->execute() == true) ? array("status" => "ok") : array("error" => "Cannot hard remove $html_id");

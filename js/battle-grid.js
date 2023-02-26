@@ -3,24 +3,70 @@ $(document).ready(function() {
 	// load checkers on startup
 	$("#availSymbols").load("checkers.html");
 
+	
+	
 
+	// get map
+	var data = {
+		"action" : "get"
+	};
+	
+	// get user map on page load
+	$.ajax({
+	
+		url: "upload_map_dispatcher.php",
+		type: "POST",
+		data: data,
+		success: function(ret) {
+			
+			var Ret = JSON.parse(ret);
+			
+			if (!Ret.error) {
+				
+				$("#map").attr("src", Ret.filename);
+				
+				
+				setTimeout(function() {
+					
+					var string = sizeGrid("map");
+					
+					$("#grid").html(string);
+
+				}, 1000);
+
+				
+			} else sessionStorage.setItem("error", Ret.error);
+			
+			
+		}
+
+	});
+
+	
+	
+	
 	// On page load or viewport change
-	anchorMap("#dashboard", "#map, #grid");
+	setTimeout(function() {
+		anchorMap("#dashboard", "#map, #grid");
+	}, 4000)
+	
 	window.addEventListener("resize", function() {
 		
 		anchorMap("#dashboard", "#map, #grid");
 		
-		setTimeout(function() {resizeIfNotEmpty(resizeDashboard)}, 1000);
+		setTimeout(function() {resizeIfNotEmpty(resizeDashboard)}, 4500);
 		
 	});
 	
 	
 	
-	setTimeout(function() {resizeIfNotEmpty(resizeDashboard)}, 1000);
+	setTimeout(function() {resizeIfNotEmpty(resizeDashboard)}, 5000);
 
 	
 	// get available checkers
-	battlegridPos("get");
+	setTimeout(function() {
+		battlegridPos("get");
+	}, 6000)
 
 	/**
 	* New checkers modal
@@ -29,7 +75,9 @@ $(document).ready(function() {
 	$("#availColors").selectable();
 	
 	
-	
+	setTimeout(function() {
+		console.log("Errors: " + sessionStorage.getItem("error"));
+	}, 6500);
 
 	
 	
@@ -94,43 +142,6 @@ $(document).ready(function() {
 	
 	
 	
-
-	// get map
-	var data = {
-		"action" : "get"
-	};
-	
-	// get user map on page load
-	$.ajax({
-	
-		url: "upload_map_dispatcher.php",
-		type: "POST",
-		data: data,
-		success: function(ret) {
-			
-			var Ret = JSON.parse(ret);
-			
-			if (!Ret.error) {
-				
-				$("#map").attr("src", Ret.filename);
-				
-				
-				setTimeout(function() {
-					
-					var string = sizeGrid("map");
-					
-					$("#grid").html(string);
-					
-				}, 500);
-
-				
-			} else sessionStorage.setItem("error", Ret.error);
-			
-			
-		}
-
-	});
-
 	
 	
 	// upload map
@@ -218,8 +229,7 @@ $(document).ready(function() {
 
 			// AJAX remove
 			// battlegridPos("delete", ui.draggable[0].id, posX.toString(), posY.toString());
-			battlegridPos("hardDelete", "#" + ui.draggable[0].id);
-			
+			battlegridPos("hardDelete", ui.draggable[0].id);
 			
 			// checker opacity and hold it on removing area
 			// $("#" + ui.draggable[0].id).addClass("deleted");
