@@ -3,15 +3,13 @@ $(document).ready(function() {
 	// load checkers on startup
 	$("#availSymbols").load("checkers.html");
 
-	
-	
 
 	// get map
 	var data = {
 		"action" : "get"
 	};
 	
-	// get user map on page load
+	// get map on page load
 	$.ajax({
 	
 		url: "upload_map_dispatcher.php",
@@ -24,22 +22,46 @@ $(document).ready(function() {
 			if (!Ret.error) {
 				
 				$("#map").attr("src", Ret.filename);
-				
-				
+	
 				setTimeout(function() {
 					
-					var string = sizeGrid("map");
+					let string = sizeGrid("map");
+		
+					let width = $("body").outerWidth();
+					let height = $("body").outerHeight();
+					
+
+					$("#loading").removeClass("w-100 h-100").css({
+						"width": width + "px",
+						"height": height + "px"
+					})
 					
 					$("#grid").html(string);
-
+					
+					
+					// set loading img at the center of the viewport
+					width = $(window).outerWidth();
+					height = $(window).outerHeight();
+					
+					let calculatedTop = (height / 2) - 122;
+					
+					$("#loading-img").css({
+						"top": calculatedTop + "px"
+					}).fadeIn("slow");
+					
+					let calculatedCenter = (height / 2) - 40;
+					let calculatedLeft = (width / 2) - 220;
+					
+					
+					$("#lading-text").css({
+						"top": calculatedCenter + "px",
+						"left": calculatedLeft + "px"
+					}).fadeIn("slow");
+					
 				}, 1000);
-
-				
+	
 			} else sessionStorage.setItem("error", Ret.error);
-			
-			
 		}
-
 	});
 
 	
@@ -51,11 +73,8 @@ $(document).ready(function() {
 	}, 4000)
 	
 	window.addEventListener("resize", function() {
-		
 		anchorMap("#dashboard", "#map, #grid");
-		
 		setTimeout(function() {resizeIfNotEmpty(resizeDashboard)}, 4500);
-		
 	});
 	
 	
@@ -74,11 +93,23 @@ $(document).ready(function() {
 	$("#availSymbols").selectable();
 	$("#availColors").selectable();
 	
-	
+	// remove loading blank page and get available errors
 	setTimeout(function() {
-		console.log("Errors: " + sessionStorage.getItem("error"));
+		
+		$("#loading").fadeOut("slow");
+		
+		let errors = sessionStorage.getItem("error");
+		
+		if (errors !== null) console.log("Errors: " + errors);
 	}, 6500);
-
+	
+	
+	
+	
+	 /* ************** */
+	/* END OF LOADING */
+   /* ************** */
+	
 	
 	
 	// click on #add-checker-btn

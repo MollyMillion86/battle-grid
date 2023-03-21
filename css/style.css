@@ -168,3 +168,25 @@ svg.selectable.ui-selected, div.selectable.ui-selected {
 .zindex-2000 {
 	z-index: 2000;
 }
+
+.zindex-100 {
+	z-index: 100;
+}
+
+.zindex-n1 {
+	z-index: -1;
+}
+
+.top-0 {
+	top: 0 !important;
+}
+
+.left-out {
+	left: -9999px;
+}
+
+/* VISIBLE */
+
+#loading-img, #lading-text {
+	display: none;
+}

@@ -13,12 +13,13 @@ function anchorMap(posFromItem, posToItem) {
 
 	var pos = $(posFromItem).position();
 	
-	$(posToItem).css({
+	var css = {
 		"left" : pos.left,
 		"top" : pos.top + $(posFromItem).height()
-	});
-
+	}
 	
+	$(posToItem).css( css );
+
 }
 
 /**
